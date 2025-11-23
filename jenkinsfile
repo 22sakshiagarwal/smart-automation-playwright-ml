@@ -16,8 +16,9 @@ pipeline {
 
          stage('Prepare Folders') {
             steps {
-                bat 'mkdir test-results'
-                bat 'mkdir playwright-report'
+                bat 'if not exist test-results mkdir test-results'
+
+               bat 'if not exist playwright-report mkdir playwright-report'
             }
         }
 
