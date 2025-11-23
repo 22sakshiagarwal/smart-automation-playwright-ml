@@ -5,7 +5,7 @@ import pandas as pd
 df = pd.read_csv("ml/test_history.csv")
 
 # Load Playwright JSON report
-with open("playwright-report/data/report.json", "r") as f:
+with open("test-results/report.json", "r") as f:
     report = json.load(f)
 
 # Loop through suites
