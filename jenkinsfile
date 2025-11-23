@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS'   // Configure NodeJS in Jenkins global tools
+        nodejs 'NodeJS'   // Make sure "NodeJS" is added in Global Tool config
     }
 
     stages {
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Run Full Test Suite') {
             steps {
-                bat 'npx playwright test --reporter=json,html'
+                bat 'npx playwright test --reporter=json --reporter=html'
             }
             post {
                 always {
@@ -46,7 +46,11 @@ pipeline {
         stage('Run ML Prioritizer') {
             steps {
                 bat 'python ml\\prioritizer.py'
-                archiveArtifacts artifacts: 'ml\\results\\prioritized_tests.csv', allowEmptyArchive: true
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'ml\\results\\prioritized_tests.csv', allowEmptyArchive: true
+                }
             }
         }
 
@@ -63,4 +67,3 @@ pipeline {
         }
     }
 }
-
