@@ -26,11 +26,9 @@ pipeline {
             }
         }
 
-        stage('Run Full Test Suite (with HTML Report)') {
+        stage('Run Full Test Suite (with HTML/JSON Report)') {
             steps {
-                // DO NOT use show-report here
-               bat 'npx playwright test'
-
+                bat 'npx playwright test --reporter=html,json'
             }
             post {
                 always {
