@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS'   // Make sure "NodeJS" is added in Global Tool config
+        nodejs 'NodeJS'
     }
 
     stages {
@@ -28,7 +28,8 @@ pipeline {
 
         stage('Run Full Test Suite') {
             steps {
-                bat 'npx playwright test --reporter=json --reporter=html'
+                bat 'npx playwright test --reporter=json,html'
+                bat 'npx playwright show-report'   // 🔥 FIX 1: Ensure full HTML report is generated
             }
             post {
                 always {
@@ -39,24 +40,21 @@ pipeline {
 
         stage('Update Test History (Python ML)') {
             steps {
-                bat 'python scripts\\update-test-history.py'
+                bat 'python scripts\\update-test-history.py'   // assumes Python is in PATH
             }
         }
 
         stage('Run ML Prioritizer') {
             steps {
                 bat 'python ml\\prioritizer.py'
-            }
-            post {
-                always {
-                    archiveArtifacts artifacts: 'ml\\results\\prioritized_tests.csv', allowEmptyArchive: true
-                }
+                archiveArtifacts artifacts: 'ml\\results\\prioritized_tests.csv', allowEmptyArchive: true
             }
         }
 
         stage('Run Prioritized Tests') {
             steps {
                 bat 'node scripts\\run-prioritized-tests.js'
+                // You may add a reporter here too if you want results stored
             }
         }
     }
