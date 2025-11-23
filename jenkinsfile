@@ -29,11 +29,12 @@ pipeline {
         stage('Run Full Test Suite (with HTML Report)') {
             steps {
                 // DO NOT use show-report here
-                bat 'npx playwright test --reporter=html'
+               bat 'npx playwright test'
+
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: false
+                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
                 }
             }
         }
