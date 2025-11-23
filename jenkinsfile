@@ -26,42 +26,50 @@ pipeline {
             }
         }
 
-        stage('Run Full Test Suite') {
+        stage('Run Full Test Suite (with HTML Report)') {
             steps {
-                bat 'npx playwright test --reporter=json,html'
-                bat 'npx playwright show-report'   // 🔥 FIX 1: Ensure full HTML report is generated
+                // DO NOT use show-report here
+                bat 'npx playwright test --reporter=html'
             }
             post {
                 always {
-                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: false
                 }
             }
         }
 
-        stage('Update Test History (Python ML)') {
+        stage('Update Test History (Python)') {
             steps {
-                bat 'python scripts\\update-test-history.py'   // assumes Python is in PATH
+                bat 'python scripts\\update-test-history.py'
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'ml\\test_history.csv', allowEmptyArchive: true
+                }
             }
         }
 
         stage('Run ML Prioritizer') {
             steps {
                 bat 'python ml\\prioritizer.py'
-                archiveArtifacts artifacts: 'ml\\results\\prioritized_tests.csv', allowEmptyArchive: true
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'ml\\results\\prioritized_tests.csv', allowEmptyArchive: false
+                }
             }
         }
 
         stage('Run Prioritized Tests') {
             steps {
                 bat 'node scripts\\run-prioritized-tests.js'
-                // You may add a reporter here too if you want results stored
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline completed!"
+            echo "Pipeline execution completed!"
         }
     }
 }
