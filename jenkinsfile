@@ -40,17 +40,18 @@ pipeline {
             }
         }
 
-        stage('Run Full Test Suite (with HTML/JSON Report)') {
-            steps {
-                bat 'npx playwright test --reporter=html,json'
-            }
-            post {
-                always {
-                     archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
-        
-                }
-            }
+       stage('Run Full Test Suite (with HTML + JSON Report)') {
+    steps {
+        bat 'npx playwright test --reporter=list --reporter=json=test-results/report.json --reporter=html'
+    }
+    post {
+        always {
+            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'test-results/report.json', allowEmptyArchive: true
         }
+    }
+}
+
 
         stage('Update Test History (Python)') {
             steps {
