@@ -5,7 +5,11 @@ import pandas as pd
 df = pd.read_csv("ml/test_history.csv")
 
 # Load Playwright JSON report
-with open("test-results/report.json", "r") as f:
+import os
+
+REPORT_PATH = r"C:/Users/Sakshi Agarwal/.jenkins/workspace/Smart-Automation-Pipeline/test-results/report.json"
+
+with open(REPORT_PATH, "r") as f:
     report = json.load(f)
 
 # Loop through suites

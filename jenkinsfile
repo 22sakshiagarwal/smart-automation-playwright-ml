@@ -42,7 +42,8 @@ pipeline {
 
        stage('Run Full Test Suite (with HTML + JSON Report)') {
     steps {
-        bat 'npx playwright test --reporter=list --reporter=json=test-results/report.json --reporter=html'
+       bat "npx playwright test --reporter=list --reporter=json=\"C:/Users/Sakshi Agarwal/.jenkins/workspace/Smart-Automation-Pipeline/test-results/report.json\" --reporter=html"
+
     }
     post {
         always {
