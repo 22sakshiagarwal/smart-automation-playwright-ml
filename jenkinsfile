@@ -9,7 +9,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                    checkout([
+                checkout([
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
@@ -20,11 +20,10 @@ pipeline {
             }
         }
 
-         stage('Prepare Folders') {
+        stage('Prepare Folders') {
             steps {
                 bat 'if not exist test-results mkdir test-results'
-
-               bat 'if not exist playwright-report mkdir playwright-report'
+                bat 'if not exist playwright-report mkdir playwright-report'
             }
         }
 
@@ -40,19 +39,22 @@ pipeline {
             }
         }
 
-       stage('Run Full Test Suite (with HTML + JSON Report)') {
-    steps {
-       bat "npx playwright test --reporter=list --reporter=json=\"C:/Users/Sakshi Agarwal/.jenkins/workspace/Smart-Automation-Pipeline/test-results/report.json\" --reporter=html"
-
-    }
-    post {
-        always {
-            archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
-            archiveArtifacts artifacts: 'test-results/report.json', allowEmptyArchive: true
+        stage('Run Full Test Suite (HTML + JSON)') {
+            steps {
+                bat """
+                npx playwright test ^
+                  --reporter=list ^
+                  --reporter=json=test-results/report.json ^
+                  --reporter=html
+                """
+            }
+            post {
+                always {
+                    archiveArtifacts artifacts: 'playwright-report/**', allowEmptyArchive: true
+                    archiveArtifacts artifacts: 'test-results/report.json', allowEmptyArchive: true
+                }
+            }
         }
-    }
-}
-
 
         stage('Update Test History (Python)') {
             steps {
