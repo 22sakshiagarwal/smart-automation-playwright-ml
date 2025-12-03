@@ -1,15 +1,18 @@
 import json
+import os
 import pandas as pd
 
 # Load test history CSV
 df = pd.read_csv("ml/test_history.csv")
 
-# Load Playwright JSON report
-import os
+# Resolve Playwright JSON report path relative to the workspace root,
+# so it works both locally and on Jenkins agents.
+report_path = os.path.join(os.getcwd(), "test-results", "report.json")
 
-REPORT_PATH = r"C:\Users\Sakshi Agarwal\Desktop\Sopra Steria\playwright-project\playwright_demo_1\test-results\report.json"
+if not os.path.exists(report_path):
+    raise FileNotFoundError(f"Playwright report not found at: {report_path}")
 
-with open(REPORT_PATH, "r") as f:
+with open(report_path, "r") as f:
     report = json.load(f)
 
 # Loop through suites
