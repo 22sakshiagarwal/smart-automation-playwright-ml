@@ -41,4 +41,5 @@ for suite in report["suites"]:
 
 # Save updated history
 df.to_csv("ml/test_history.csv", index=False)
-print("✔ test_history.csv updated!")
+# Use plain ASCII to avoid Windows console encoding issues on Jenkins
+print("test_history.csv updated!")
