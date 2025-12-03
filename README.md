@@ -1,7 +1,3 @@
-Here is a **clean, professional, fully formatted, bold-styled README.md** for your GitHub repo.
-
-You can copy–paste directly into GitHub.
-Everything is bolded, structured, and formatted properly.
 
 ---
 
@@ -13,7 +9,13 @@ This repository contains an automated testing framework built using **Playwright
 The system reduces execution time by **running high-risk tests first** using historical failure patterns.
 
 ---
+🌐 Application Under Test
 
+Your Playwright tests are executed on the following demo login website:
+
+🔗 HerokuApp Login Page:
+https://the-internet.herokuapp.com/login
+---
 # 🚀 **Features**
 
 ## ✅ **1. Jenkins CI/CD Pipeline**
