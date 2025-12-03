@@ -41,12 +41,10 @@ pipeline {
 
         stage('Run Full Test Suite (HTML + JSON)') {
             steps {
-                bat """
-                npx playwright test ^
-                  --reporter=list ^
-                  --reporter=json=test-results/report.json ^
-                  --reporter=html
-                """
+                // Use reporters defined in playwright.config.js so behavior is identical
+                // locally and in Jenkins. That config already writes test-results/report.json
+                // and the HTML report under playwright-report.
+                bat 'npx playwright test'
             }
             post {
                 always {

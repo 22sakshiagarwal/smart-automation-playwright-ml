@@ -1,4 +1,4 @@
 test_name,priority
-TC02_invalid_username,0.6891262529108029
-TC06_empty_username,0.5230029361142047
-TC07_empty_password,0.5139111066113192
+TC02_invalid_username,0.6803331455701296
+TC06_empty_username,0.5085620020922186
+TC07_empty_password,0.5

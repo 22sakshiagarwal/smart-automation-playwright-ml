@@ -7,7 +7,7 @@ df = pd.read_csv("ml/test_history.csv")
 # Load Playwright JSON report
 import os
 
-REPORT_PATH = r"C:/Users/Sakshi Agarwal/.jenkins/workspace/Smart-Automation-Pipeline/test-results/report.json"
+REPORT_PATH = r"C:\Users\Sakshi Agarwal\Desktop\Sopra Steria\playwright-project\playwright_demo_1\test-results\report.json"
 
 with open(REPORT_PATH, "r") as f:
     report = json.load(f)
